@@ -6,9 +6,10 @@
 % white point.
 % RGB_BL are the RGB coordinates of background
 
-function displayColors(RGBList,CIEx,CIEy,RGB_BG)
+function displayColors(RGBList,CIEx,CIEy,RGB_BG,markerType)
 
 if ~exist('RGB_BG','var');      RGB_BG = [0.5 0.5 0.5];                 end
+if ~exist('markerType','var');  markerType = 'o';                       end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % xy Coordinates
@@ -95,29 +96,36 @@ for i=1:numColors
     xyY = XYZToxyY(XYZ); 
     x = xyY(1); y = xyY(2); Y = xyY(3);
 
+    disp(i);
+    if max(RGB)>1 || min(RGB)<0
+        RGBtmp = RGB;
+        RGB = normalizeRGB(RGBtmp);
+        disp(['Color' num2str(i) ': ' num2str(round(RGBtmp,2)) ' changed to ' num2str(round(RGB,2))]);
+    end
+
     % Show coordinates in xy, xY and MB spaces
     subplot(231);
-    plot(x,y,'marker', 'o','color',RGB,'markerfacecolor',RGB);
+    plot(x,y,'marker', markerType,'color',RGB,'markerfacecolor',RGB);
 
     subplot(232);
-    plot(x,Y,'marker', 'o','color',RGB,'markerfacecolor',RGB);
-    
+    plot(x,Y,'marker', markerType,'color',RGB,'markerfacecolor',RGB);
+
     subplot(233);
     [r,b] = xy2MB(x,y);
-    plot(r,b,'marker', 'o','color',RGB,'markerfacecolor',RGB);
-    
+    plot(r,b,'marker', markerType,'color',RGB,'markerfacecolor',RGB);
+
     % Show stimuli in DKL space
     LMS = M_RGB2LMS * RGB';
     DKL = M_LMS2DKL * (LMS - LMS_BG);
-%    DKL2 = lms2dkl(LMS_BG,LMS); % Using Stephen Westland's code; Note that
-%    in this code, cone increment is taken as LMS_BG - LMS; so DKL = -DKL2;
+    %    DKL2 = lms2dkl(LMS_BG,LMS); % Using Stephen Westland's code; Note that
+    %    in this code, cone increment is taken as LMS_BG - LMS; so DKL = -DKL2;
 
     subplot(234);
-    plot(DKL(2),DKL(1),'marker', 'o','color',RGB,'markerfacecolor',RGB); hold on;
+    plot(DKL(2),DKL(1),'marker', markerType,'color',RGB,'markerfacecolor',RGB); hold on;
     subplot(235);
-    plot(DKL(3),DKL(1),'marker', 'o','color',RGB,'markerfacecolor',RGB); hold on;
+    plot(DKL(3),DKL(1),'marker', markerType,'color',RGB,'markerfacecolor',RGB); hold on;
     subplot(236);
-    plot(DKL(2),DKL(3),'marker', 'o','color',RGB,'markerfacecolor',RGB); hold on;
+    plot(DKL(2),DKL(3),'marker', markerType,'color',RGB,'markerfacecolor',RGB); hold on;
 end
 
 subplot(234);
@@ -140,4 +148,16 @@ CMF2CF_MB = getMBMatrix;
 lms = CMF2CF_MB*[x y 1-x-y]';
 r = lms(1)/(lms(1)+lms(2));
 b = lms(3)/(lms(1)+lms(2));
+end
+
+% Normalization
+function nRGB = normalizeRGB(RGB)
+nRGB = RGB;
+for i=1:3
+    if RGB(i)>1
+        nRGB(i)=1;
+    elseif RGB(i)<0
+        nRGB(i)=0;
+    end
+end
 end

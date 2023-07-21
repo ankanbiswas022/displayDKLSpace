@@ -5,33 +5,20 @@
 
 % Inputs: 
 % numColors: number of colors spanning dklPhi (0 to 2pi)
-% CIEx and CIEy - CIE (x,y) coordinates of the primaries (r,g,b) and the
-% white point.
+% CIEx and CIEy - CIE (x,y) coordinates of the primaries (r,g,b) and the white point.
+
+% Outputs:
+% rgb0 - colors in RGB space using the algorithm used in Lablib
+% rgb1 - colors in RGB space using a different method
 
 % Note:
 % We have used some functions from external sources such as PsychToolbox to convert from
 % one color space to another. They can be found in ExternalFunctions
 % folder.
 
-function [rgb0,rgb1,CIEx,CIEy] = generateDKLColors(numColors,CIEx,CIEy)
+function [rgb0,rgb1] = generateDKLColors(numColors,CIEx,CIEy)
 
 if ~exist('numColors','var');           numColors=8;                    end
-if ~exist('CIEx','var')
-    % Enter the x and y coordinates of the primaries (these can be obtained
-    % from the spectra or directly from a display calibration device which is
-    % used to linearize the monitor)
-    CIEx.r = 0.6443;
-    CIEx.g = 0.3134;
-    CIEx.b = 0.1563;
-
-    CIEy.r = 0.3345;
-    CIEy.g = 0.6137;
-    CIEy.b = 0.0705;
-
-    CIEx.w = 0.31271; CIEy.w = 0.32902; % D65 white point (CIE 1931, 2 degree observer)
-%    CIEx.w = 1/3; CIEy.w = 1/3; % equal energy white point
-
-end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -57,7 +44,6 @@ scalingFactor_cb = bmr3 - bmrCarGreen;
 % Cardinal Yellow
 bmbCarYellow = calibratedColor.cardinalYellow.red*bmb0+calibratedColor.cardinalGreen.green*bmb1;
 scalingFactor_tc = bmb3 - bmbCarYellow;
-
 
 %%%%%%%%%%% Find appropriate colors using two approaches %%%%%%%%%%%%%%%%%%
 
