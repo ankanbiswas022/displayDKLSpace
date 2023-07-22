@@ -19,16 +19,15 @@
 % using the spectroradiometer and save these values here. These are used to
 % normalize the luminace values later.
 
-function [CIEx,CIEy,Y_Max,Y_BG] = getMonitorCalibrationDetails(rigName,monitorName,profileDate,BCDVals)
+function [CIEx,CIEy,Y_Max,Y_BG] = getMonitorCalibrationDetails(computerName,profileDate,BCDVals)
 
-if ~exist('rigName','var');     rigName = 'Rig1Display';                end
-if ~exist('monitorName','var'); monitorName = 'BenQXL2411Z';            end
+if ~exist('rigName','var');     computerName = 'Rig1Display';           end
 if ~exist('profileDate','var'); profileDate = '230423';                 end
 if ~exist('BCDVals','var');     BCDVals = [25 50 65];                   end
-    
-profileName = [rigName '_' monitorName '_' profileDate '_B' num2str(BCDVals(1)) 'C' num2str(BCDVals(2)) 'D' num2str(BCDVals(3))];
 
-if strcmp(profileName,'Rig1Display_BenQXL2411Z_230423_B25C50D65')
+profileName = [computerName '_' profileDate '_B' num2str(BCDVals(1)) 'C' num2str(BCDVals(2)) 'D' num2str(BCDVals(3))];
+
+if strcmp(profileName,'Rig1Display_230423_B25C50D65')
 
     % This was used for experiments on dona. We used xy coordinates from the
     % ICC profile
@@ -46,5 +45,24 @@ if strcmp(profileName,'Rig1Display_BenQXL2411Z_230423_B25C50D65')
 
     Y_Max = 122.5; % cd/m2 - obtained using the spectroradiometer data
     Y_BG = 55.06; % cd/m2 - obtained using the spectroradiometer data
+
+elseif strcmp(profileName,'Rig4Analysis_200723_B25C53D65')
+
+    % This was used for experiments using MonkeyLogic on dona. We used xy coordinates from the
+    % ICC profile
+    CIEx.r = 0.644;
+    CIEx.g = 0.325;
+    CIEx.b = 0.160;
+
+    CIEy.r = 0.329;
+    CIEy.g = 0.606;
+    CIEy.b = 0.065;
+
+    % D65 white point (CIE 1931, 2 degree observer)
+    CIEx.w = 0.31271; 
+    CIEy.w = 0.32902;
+
+    Y_Max = 126.8; % cd/m2 - obtained using the spectroradiometer data
+    Y_BG = 67.5; % cd/m2 - obtained using the spectroradiometer data
 end
 end
