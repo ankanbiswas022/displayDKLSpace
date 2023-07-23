@@ -16,7 +16,7 @@
 % one color space to another. They can be found in ExternalFunctions
 % folder.
 
-function [rgb0,rgb1] = generateDKLColors(numColors,CIEx,CIEy)
+function [rgb0,rgb1,kdlPhiValues] = generateDKLColors(numColors,CIEx,CIEy)
 
 if ~exist('numColors','var');           numColors=8;                    end
 
@@ -42,7 +42,7 @@ bmrCarGreen = calibratedColor.cardinalGreen.green*bmr1+calibratedColor.cardinalG
 scalingFactor_cb = bmr3 - bmrCarGreen;
 
 % Cardinal Yellow
-bmbCarYellow = calibratedColor.cardinalYellow.red*bmb0+calibratedColor.cardinalGreen.green*bmb1;
+bmbCarYellow = calibratedColor.cardinalYellow.red*bmb0+calibratedColor.cardinalYellow.green*bmb1;
 scalingFactor_tc = bmb3 - bmbCarYellow;
 
 %%%%%%%%%%% Find appropriate colors using two approaches %%%%%%%%%%%%%%%%%%
@@ -51,6 +51,7 @@ kdlConstants = calibratedColorTokdlConstants(calibratedColor); % Lablib
 
 rgb0 = zeros(numColors,3); % Colors using Lablib
 rgb1 = zeros(numColors,3); % Colors by directly converting XYZ to RGB
+kdlPhiValues = zeros(numColors,1);
 
 for i=1:numColors
     
@@ -73,6 +74,7 @@ for i=1:numColors
     rgb.red = rgbVals(1); rgb.green = rgbVals(2); rgb.blue = rgbVals(3);
     rgb = normalizeColors(rgb,kdlPhi,0); % Normalize if needed to keep within range
     rgb1(i,:) = [rgb.red rgb.green rgb.blue];
+    kdlPhiValues(i) = kdlPhi;
 end
 end
 

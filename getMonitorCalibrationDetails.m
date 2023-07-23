@@ -21,7 +21,7 @@
 
 function [CIEx,CIEy,Y_Max,Y_BG] = getMonitorCalibrationDetails(computerName,profileDate,BCDVals)
 
-if ~exist('rigName','var');     computerName = 'Rig1Display';           end
+if ~exist('computerName','var');     computerName = 'Rig1Display';           end
 if ~exist('profileDate','var'); profileDate = '230423';                 end
 if ~exist('BCDVals','var');     BCDVals = [25 50 65];                   end
 
