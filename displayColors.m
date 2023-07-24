@@ -18,10 +18,10 @@ axis square;
 cieCoordinates=load('cieCoordinates.mat');
 plot(cieCoordinates.cieCoordinates(:,2), cieCoordinates.cieCoordinates(:,3),'k'); axis([0 1 0 1]);
 hold on;
-plot(CIEx.r,CIEy.r,'marker','o','color','r','markerfacecolor','r');
-plot(CIEx.g,CIEy.g,'marker','o','color','g','markerfacecolor','g');
-plot(CIEx.b,CIEy.b,'marker','o','color','b','markerfacecolor','b');
-plot(CIEx.w,CIEy.w,'marker','o','color',RGB_BG,'markerfacecolor',RGB_BG);
+plot(CIEx.r,CIEy.r,'marker',markerType,'color','r','markerfacecolor','r');
+plot(CIEx.g,CIEy.g,'marker',markerType,'color','g','markerfacecolor','g');
+plot(CIEx.b,CIEy.b,'marker',markerType,'color','b','markerfacecolor','b');
+plot(CIEx.w,CIEy.w,'marker',markerType,'color',RGB_BG,'markerfacecolor',RGB_BG);
 
 line([CIEx.b CIEx.g],[CIEy.b CIEy.g],'color','k');
 line([CIEx.b CIEx.r],[CIEy.b CIEy.r],'color','k');
@@ -47,10 +47,10 @@ XYZg = M_RGB2XYZ*[0 1 0]'; xyYg = XYZToxyY(XYZg); % xyY of Green [0 1 0]
 XYZb = M_RGB2XYZ*[0 0 1]'; xyYb = XYZToxyY(XYZb); % xyY of Blue [0 0 1]
 XYZw = M_RGB2XYZ*RGB_BG'; xyYw = XYZToxyY(XYZw); % xyY of gray [0.5 0.5 0.5]
 
-plot(xyYr(1),xyYr(3),'marker','o','color','r','markerfacecolor','r'); hold on;
-plot(xyYg(1),xyYg(3),'marker','o','color','g','markerfacecolor','g');
-plot(xyYb(1),xyYb(3),'marker','o','color','b','markerfacecolor','b');
-plot(xyYw(1),xyYw(3),'marker','o','color',RGB_BG,'markerfacecolor',RGB_BG);
+plot(xyYr(1),xyYr(3),'marker',markerType,'color','r','markerfacecolor','r'); hold on;
+plot(xyYg(1),xyYg(3),'marker',markerType,'color','g','markerfacecolor','g');
+plot(xyYb(1),xyYb(3),'marker',markerType,'color','b','markerfacecolor','b');
+plot(xyYw(1),xyYw(3),'marker',markerType,'color',RGB_BG,'markerfacecolor',RGB_BG);
 
 xlabel('x'); ylabel('Y');
 xlim([0 1]); ylim([0 1]);
@@ -68,10 +68,10 @@ axis square;
 mbLocus = load('MBlocus.mat');
 plot(mbLocus.rMB,mbLocus.bMB,'k');
 hold on;
-plot(bmr0,bmb0,'marker','o','color','r','markerfacecolor','r');
-plot(bmr1,bmb1,'marker','o','color','g','markerfacecolor','g');
-plot(bmr2,bmb2,'marker','o','color','b','markerfacecolor','b');
-plot(bmr3,bmb3,'marker','o','color',RGB_BG,'markerfacecolor',RGB_BG);
+plot(bmr0,bmb0,'marker',markerType,'color','r','markerfacecolor','r');
+plot(bmr1,bmb1,'marker',markerType,'color','g','markerfacecolor','g');
+plot(bmr2,bmb2,'marker',markerType,'color','b','markerfacecolor','b');
+plot(bmr3,bmb3,'marker',markerType,'color',RGB_BG,'markerfacecolor',RGB_BG);
 
 line([bmr0 bmr1],[bmb0 bmb1],'color','k');
 line([bmr0 bmr2],[bmb0 bmb2],'color','k');
@@ -148,16 +148,4 @@ CMF2CF_MB = getMBMatrix;
 lms = CMF2CF_MB*[x y 1-x-y]';
 r = lms(1)/(lms(1)+lms(2));
 b = lms(3)/(lms(1)+lms(2));
-end
-
-% Normalization
-function nRGB = normalizeRGB(RGB)
-nRGB = RGB;
-for i=1:3
-    if RGB(i)>1
-        nRGB(i)=1;
-    elseif RGB(i)<0
-        nRGB(i)=0;
-    end
-end
 end
