@@ -22,9 +22,9 @@
 
 function [CIEx,CIEy,Y_Max,Y_BG] = getMonitorCalibrationDetails(computerName,profileDate,sourceType)
 
-if ~exist('computerName','var');     computerName = 'Rig1Display';      end
-if ~exist('profileDate','var'); profileDate = '230423';                 end
-if ~exist('sourceType','var');  sourceType = 'icc';                     end
+if ~exist('computerName','var');     computerName = 'Rig4Analysis';     end
+if ~exist('profileDate','var'); profileDate = '200723';                 end
+if ~exist('sourceType','var');  sourceType = 'data';                    end
 
 profileName = [computerName '_' profileDate];
 
