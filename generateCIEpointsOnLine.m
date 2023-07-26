@@ -2,7 +2,7 @@
 % point and the three primaries. Depending on the target luminance, not all
 % colors between white point and primary can be generated.
 
-targetY_Candela = 20; % cd/m2
+targetY_Candela = 25; % cd/m2
 computerName = 'Rig4Analysis'; profileDate = '200723'; sourceType = 'data';
 [CIEx,CIEy,Y_Max,Y_BG] = getMonitorCalibrationDetails(computerName,profileDate,sourceType);
 targetY = targetY_Candela/Y_Max;
