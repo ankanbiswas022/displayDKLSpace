@@ -23,15 +23,26 @@ maxS = max(abs(DKL_List(3,:)));
 maxR = floor(100*min(maxLM,maxS))/100; % This is the maximum radius of a circle on the DKL space
 
 %%%%%%%%%%%%%%%%%%%%%% Generate colors on DKL space %%%%%%%%%%%%%%%%%%%%%%%
-axisLum = zeros(1,numColors);
-axisLM = zeros(1,numColors);
-axisS = zeros(1,numColors);
+% Circle
+% axisLum = zeros(1,numColors);
+% axisLM = zeros(1,numColors);
+% axisS = zeros(1,numColors);
+% 
+% for i=1:numColors
+%     axisLum(i) = 0;
+%     axisLM(i) = maxR*cos(2*pi*(i-1)/numColors);
+%     axisS(i) = maxR*sin(2*pi*(i-1)/numColors);
+% end
+% DKLOut_List = [axisLum; axisLM; axisS];
+% LMSOut_List = (M_LMS2DKL) \ DKLOut_List + LMS_BG;
+% RGBOut_List = (M_RGB2LMS) \ LMSOut_List;
+% 
+% displayColors(RGBOut_List',CIEx,CIEy,RGB_BG,'o');
 
-for i=1:numColors
-    axisLum(i) = 0;
-    axisLM(i) = maxR*cos(2*pi*(i-1)/numColors);
-    axisS(i) = maxR*sin(2*pi*(i-1)/numColors);
-end
+% Line
+axisLM = -maxR:0.01:maxR;
+axisLum = zeros(1,length(axisLM));
+axisS = zeros(1,length(axisLM));
 DKLOut_List = [axisLum; axisLM; axisS];
 LMSOut_List = (M_LMS2DKL) \ DKLOut_List + LMS_BG;
 RGBOut_List = (M_RGB2LMS) \ LMSOut_List;
