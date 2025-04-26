@@ -1,0 +1,1 @@
+This is the new Rig4Display iMac for Rig4. Previously in Rig4, Rig1Display was used.
